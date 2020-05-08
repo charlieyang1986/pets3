@@ -1,0 +1,17 @@
+{
+"name": "bhalbert2/IT328/pets3",
+"authors": [
+{
+"name": "chunhai yang",
+"email": "cyang21@mail.greenriver.edu"
+},
+{
+  "name": "Benjamin Halbert",
+  "email": "bhalbert@mail.greenriver.edu"
+
+}
+],
+"require": {
+"bcosca/fatfree-core": "dev-master"
+}
+}

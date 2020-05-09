@@ -48,14 +48,38 @@ $f3->route('GET|POST /order', function($f3){
 
 
 		      //Redirect to the summary route
-             $f3->reroute("order2.html");
-             session_destroy();
+             $f3->reroute("order2");
          }
 
     }
 
     $view = new Template();
     echo $view->render('views/pet-order.html');
+});
+
+$f3->route('GET|POST /order2', function($f3)
+{
+
+    //if the form has been submitted
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        $valid = true;
+        //Validate the data
+        if(empty($_POST['color'])){
+            $valid = false;
+            echo "Please supply a pet color <br>";
+        }
+        if($valid){
+            //store the data in the session array
+            $_SESSION['color'] = $_POST['color'];
+            $f3->reroute('summary');
+            session_destroy();
+        }
+
+    }
+
+    $view = new Template();
+    echo $view->render('views/order2.html');
 });
 
 $f3->route('GET /summary', function()
@@ -65,36 +89,6 @@ $f3->route('GET /summary', function()
     $view = new Template();
     echo $view->render('views/order-summary.html');
 });
-
-$f3->route('GET|POST /order2', function($f3)
-{
-    $conds = getConds();
-
-    //if the form has been submitted
-    if($_SERVER['REQUEST_METHOD'] == 'POST')
-    {
-        //store the data in the session array
-        $_SESSION['color'] = $_POST['color'];
-
-        $f3->reroute('summary');
-
-    }
-
-    $f3->set('color', $color);
-    $view = new Template();
-    echo $view->render('views/order2.html');
-});
-
-//Breakfast route
-$f3->route('GET /summary', function() {
-    //echo '<h1>Thank you for your order!</h1>';
-
-    $view = new Template();
-    echo $view->render('views/summary.html');
-
-    session_destroy();
-});
-
 
 //run fat free
 $f3->run();

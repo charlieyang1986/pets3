@@ -9,6 +9,7 @@ require_once('vendor/autoload.php');
 
 //instantiate the F3 Base class
 $f3 = Base::instance();
+$f3->set('colors', array('pink', 'green', 'blue'));
 
 //define a default route
 //when user visits the default root(file) - ...328/pets2
@@ -38,22 +39,16 @@ $f3->route('GET|POST /order', function($f3){
             $valid = false;
             echo "Please supply a pet type <br>";
         }
-        if ($_POST['color'] != "Brown" && $_POST['color'] != "Black" && $_POST['color'] != "White")
-        {
-            $valid = false;
-            echo "Please supply a valid color";
-        }
         if($valid)
             {
              //Data is valid
              $_SESSION['pet'] = $_POST['pet'];
-             $_SESSION['color'] = $_POST['color'];
 
 		      //***Add the color to the session
 
 
 		      //Redirect to the summary route
-             $f3->reroute("summary");
+             $f3->reroute("order2.html");
              session_destroy();
          }
 
@@ -69,6 +64,35 @@ $f3->route('GET /summary', function()
     //echo "<a href='order'>Order a Pet</a>";
     $view = new Template();
     echo $view->render('views/order-summary.html');
+});
+
+$f3->route('GET|POST /order2', function($f3)
+{
+    $conds = getConds();
+
+    //if the form has been submitted
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        //store the data in the session array
+        $_SESSION['color'] = $_POST['color'];
+
+        $f3->reroute('summary');
+
+    }
+
+    $f3->set('color', $color);
+    $view = new Template();
+    echo $view->render('views/order2.html');
+});
+
+//Breakfast route
+$f3->route('GET /summary', function() {
+    //echo '<h1>Thank you for your order!</h1>';
+
+    $view = new Template();
+    echo $view->render('views/summary.html');
+
+    session_destroy();
 });
 
 

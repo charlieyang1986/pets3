@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color</title>
+</head>
+<body>
+<h1>Pick a color</h1>
+
+<form action="#" method="post" class="form-horizontal">
+
+    <!-- get color -->
+    <select class="form-control" name="color" id="color">
+        <option>--Select a color--</option>
+        <repeat group="{{ @colors }}" value="{{ @colorOption}}">
+            <option>{{ @colorOption }}</option>
+        </repeat>
+    </select>
+
+    <div class="col-xs-3 ">
+        <input class="form-control btn btn-default"
+               type="submit" value="Place Order">
+    </div>
+</form>
+
+</body>
+</html>
